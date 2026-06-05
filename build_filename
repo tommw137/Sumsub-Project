@@ -1,2 +1,2 @@
 def build_filename(name, document_type, extension):
-return f"{name}_{document_type}.{extension}")
+return f"{name}_{document_type}.{extension}"

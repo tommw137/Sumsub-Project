@@ -1,1 +1,2 @@
-shutil.copy=(f"{name}_{document_type}.{extension}", exist_ok=True)
+def build_filename(name, document_type, extension):
+return f"{name}_{document_type}.{extension}")

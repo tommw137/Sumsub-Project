@@ -1,4 +1,6 @@
 import os
+import shutil
+
 def create_folder_structure(entity_name, category, subfolder=None):
   if subfolder:
     os.makedirs(f"output/{entity_name}/{category}/{subfolder}", exist_ok=True)
@@ -9,7 +11,6 @@ def create_folder_structure(entity_name, category, subfolder=None):
 def build_filename(name, document_type, extension):
   return f"{name}_{document_type}.{extension}"
 
-import shutil
 def organize_document(entity_name, category, name, document_type, source_path, subfolder=None):
   extension = source_path.split(".")[-1]
   folder = create_folder_structure(entity_name, category, subfolder)

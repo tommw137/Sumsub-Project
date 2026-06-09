@@ -63,7 +63,6 @@ def check_missing_docs(entity_name, provided_docs, nature_of_business):
         if doc not in provided_docs:
             pending.append(f"{entity_name}: {doc} not found")
   
-    
     return pending
 
 # testing file path
@@ -95,6 +94,14 @@ if __name__ == "__main__":
         document_type="Utility Bill",
         source_path="test_downloads/dummy.pdf"
     )
-    
+
+  provided = ["Articles of Association", "Proof of Address"]
+  pending =  check_missing_docs("Acme Corp", provided, "crypto exchange and trading")
+
+  if pending:
+    print("\nPending Items:")
+    for item in pending:
+      print(f" - {item}")
+  
     print("Done! Check the output folder.")
 

@@ -16,3 +16,18 @@ def sign_request(secret_key, method, url_path, body=b""):
     message = timestamp.encode() + method.encode() + url_path.encode() + body
     signature = hmac.new(secret_key.encode(), message, hashlib.sha256).hexdigest()
     return timestamp, signature
+
+def make_request(method, url_path, body=b""):
+    timestamp, signature = sign_request(SECRET_KEY, method, url_path, body)
+    
+    headers = {
+        "X-App-Token": APP_TOKEN,
+        "X-App-Access-Ts": timestamp,
+        "X-App-Access-Sig": signature,
+        "Content-Type": "application/json"
+    }
+    
+    url = BASE_URL + url_path
+    response = requests.request(method, url, headers=headers, data=body)
+    response.raise_for_status()
+    return response.json()

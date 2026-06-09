@@ -35,5 +35,5 @@ def make_request(method, url_path):
     return response.json()
 
 if __name__ == "__main__":
-    result = make_request("GET", "/resources/applicants/-;limit=10")
+    result = make_request("GET", "/resources/applicants?levelName=basic-kyc-level&limit=10&offset=0")
     print(result)

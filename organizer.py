@@ -74,7 +74,7 @@ def check_missing_docs(entity_name, provided_docs, nature_of_business, category)
     return pending
 
 def organize_sumsub_reports(entity_name, category, inspection_path, watchlist_path=None):
- organize_document(entity_name, category, entity_name, "Sumsub", inspection_path)
+  organize_document(entity_name, category, entity_name, "Sumsub", inspection_path)
   if watchlist_path:
     organize_document(entity_name, category, entity_name, "Watchlist Report", watchlist_path)
 
@@ -116,12 +116,12 @@ if __name__ == "__main__":
       for item in pending:
         print(f" - {item}")
 
-kyc_provided = ["Government ID"]
-kyc_pending = check_missing_docs("John Doe", kyc_provided, "", "KYC")
+    kyc_provided = ["Government ID"]
+    kyc_pending = check_missing_docs("John Doe", kyc_provided, "", "KYC")
 
-if kyc_pending:
-    print("\nKYC Pending Items:")
-    for item in kyc_pending:
+    if kyc_pending:
+      print("\nKYC Pending Items:")
+      for item in kyc_pending:
         print(f"  - {item}")
   
     print("Done! Check the output folder.")

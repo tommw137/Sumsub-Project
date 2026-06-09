@@ -1,6 +1,7 @@
 import os
 import shutil
 
+# building filepath
 def create_folder_structure(entity_name, category, subfolder=None):
   if subfolder:
     os.makedirs(f"output/{entity_name}/{category}/{subfolder}", exist_ok=True)
@@ -17,6 +18,7 @@ def organize_document(entity_name, category, name, document_type, source_path, s
   filename = build_filename(name, document_type, extension)
   shutil.copy(source_path, os.path.join(folder, filename))
 
+# detect pending items
 def detect_required_docs(nature_of_business):
     required = set()
     nob = nature_of_business.lower()
@@ -37,6 +39,34 @@ def detect_required_docs(nature_of_business):
   
     return list(required)
 
+# missing documents checklist for pending items
+def check_missing_docs(entity_name, provided_docs, nature_of_business):
+    pending = []
+    
+    always_required = [
+        "Articles of Association",
+        "Shareholder Registry",
+        "Proof of Address",
+        "Source of Funds", # not required for payment processor onboards (Insert PSP entities here)
+        "Sumsub Inspection Report",
+        "Sumsub Watchlist Report"
+    ]
+    
+    # check always required docs
+    for doc in always_required:
+        if doc not in provided_docs:
+            pending.append(f"{entity_name}: {doc} not found")
+    
+    # check situational docs
+    situational = detect_required_docs(nature_of_business):
+      for doc in situational:
+        if doc not in situational:
+            pending.append(f"{entity_name}: {doc} not found")
+  
+    
+    return pending
+
+# testing file path
 if __name__ == "__main__":
     os.makedirs("test_downloads", exist_ok=True)
     open("test_downloads/dummy.pdf", "w").close()

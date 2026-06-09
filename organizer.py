@@ -73,6 +73,11 @@ def check_missing_docs(entity_name, provided_docs, nature_of_business, category)
   
     return pending
 
+def organize_sumsub_reports(entity_name, category, inspection_path, watchlist_path=None):
+ organize_document(entity_name, category, entity_name, "Sumsub", inspection_path)
+  if watchlist_path:
+    organize_document(entity_name, category, entity_name, "Watchlist Report", watchlist_path)
+
 # testing file path
 if __name__ == "__main__":
     os.makedirs("test_downloads", exist_ok=True)

@@ -28,23 +28,23 @@ if __name__ == "__main__":
         document_type="Articles of Association",
         source_path="test_downloads/dummy.pdf"
     )
+  
+    organize_document(
+        entity_name="Acme Corp",
+        category="KYC",
+        name="John Doe",
+        document_type="Passport",
+        source_path="test_downloads/dummy.pdf"
+    )
 
-  organize_document(
-    entity_name="Acme Corp",
-    category="KYC",
-    name="John Doe",
-    document_type="Passport",
-    source_path="test_download/dummy.pdf"
-  )
-
-organize_document(
-  entity_name="Acme Corp",
-  category="KYC",
-  subfolder="Jane Smith",
-  name="Jane Smith",
-  document_type="Utility Bill",
-  source_path="test_download/dummy.pdf"
-)
+    organize_document(
+        entity_name="Acme Corp",
+        category="KYC",
+        subfolder="Jane Smith",
+        name="Jane Smith",
+        document_type="Utility Bill",
+        source_path="test_downloads/dummy.pdf"
+    )
     
     print("Done! Check the output folder.")
 

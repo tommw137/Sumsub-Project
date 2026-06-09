@@ -95,13 +95,13 @@ if __name__ == "__main__":
         source_path="test_downloads/dummy.pdf"
     )
 
-  provided = ["Articles of Association", "Proof of Address"]
-  pending =  check_missing_docs("Acme Corp", provided, "crypto exchange and trading")
+    provided = ["Articles of Association", "Proof of Address"]
+    pending =  check_missing_docs("Acme Corp", provided, "crypto exchange and trading")
 
-  if pending:
-    print("\nPending Items:")
-    for item in pending:
-      print(f" - {item}")
+    if pending:
+      print("\nPending Items:")
+      for item in pending:
+        print(f" - {item}")
   
     print("Done! Check the output folder.")
 

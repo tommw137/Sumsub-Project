@@ -48,3 +48,23 @@ if __name__ == "__main__":
     
     print("Done! Check the output folder.")
 
+
+def detect_required_docs(nature_of_business):
+    required = []
+    nob = nature_of_business.lower()
+    
+    if "crypto" in nob or "exchange" in nob or "trading" in nob or "forex" in nob or "broker" in nob or "MSB" in nob or "money services" in nob:
+        required.append("License")
+        required.append("AML Policy")
+        required.append("Crypto Forensics Tool")
+    
+    if "casino" in nob or "gambling" in nob:
+      required.append("License")
+      required.append("AML Policy")
+      required.append("Flow of Funds")
+
+    if "investment" in nob or "asset management" in nob or "fund" in nob:
+      required.append("License")
+      required.append("AML Policy")
+  
+    return required

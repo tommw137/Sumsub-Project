@@ -110,6 +110,14 @@ if __name__ == "__main__":
       print("\nPending Items:")
       for item in pending:
         print(f" - {item}")
+
+kyc_provided = ["Government ID"]
+kyc_pending = check_missing_docs("John Doe", kyc_provided, "", "KYC")
+
+if kyc_pending:
+    print("\nKYC Pending Items:")
+    for item in kyc_pending:
+        print(f"  - {item}")
   
     print("Done! Check the output folder.")
 

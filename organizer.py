@@ -16,3 +16,16 @@ def organize_document(entity_name, category, name, document_type, source_path, s
   folder = create_folder_structure(entity_name, category, subfolder)
   filename = build_filename(name, document_type, extension)
   shutil.copy(source_path, os.path.join(folder, filename))
+
+if __name__ == "__main__":
+    os.makedirs("test_downloads", exist_ok=True)
+    open("test_downloads/dummy.pdf", "w").close()
+
+    organize_document(
+        entity_name="Acme Corp",
+        category="KYB",
+        name="Acme Corp",
+        document_type="Articles of Association",
+        source_path="test_downloads/dummy.pdf"
+    )
+    print("Done! Check the output folder.")

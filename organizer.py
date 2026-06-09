@@ -17,6 +17,26 @@ def organize_document(entity_name, category, name, document_type, source_path, s
   filename = build_filename(name, document_type, extension)
   shutil.copy(source_path, os.path.join(folder, filename))
 
+def detect_required_docs(nature_of_business):
+    required = set()
+    nob = nature_of_business.lower()
+    
+    if "crypto" in nob or "exchange" in nob or "trading" in nob or "forex" in nob or "broker" in nob or "msb" in nob or "money services" in nob:
+        required.add("License")
+        required.add("AML Policy")
+        required.add("Crypto Forensics Tool")
+    
+    if "casino" in nob or "gambling" in nob:
+      required.add("License")
+      required.add("AML Policy")
+      required.add("Flow of Funds")
+
+    if "investment" in nob or "asset management" in nob or "fund" in nob:
+      required.add("License")
+      required.add("AML Policy")
+  
+    return list(required)
+
 if __name__ == "__main__":
     os.makedirs("test_downloads", exist_ok=True)
     open("test_downloads/dummy.pdf", "w").close()
@@ -48,23 +68,3 @@ if __name__ == "__main__":
     
     print("Done! Check the output folder.")
 
-
-def detect_required_docs(nature_of_business):
-    required = []
-    nob = nature_of_business.lower()
-    
-    if "crypto" in nob or "exchange" in nob or "trading" in nob or "forex" in nob or "broker" in nob or "MSB" in nob or "money services" in nob:
-        required.append("License")
-        required.append("AML Policy")
-        required.append("Crypto Forensics Tool")
-    
-    if "casino" in nob or "gambling" in nob:
-      required.append("License")
-      required.append("AML Policy")
-      required.append("Flow of Funds")
-
-    if "investment" in nob or "asset management" in nob or "fund" in nob:
-      required.append("License")
-      required.append("AML Policy")
-  
-    return required

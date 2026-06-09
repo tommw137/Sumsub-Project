@@ -27,13 +27,17 @@ def sign_request(request):
     prepared_request.headers['X-App-Access-Sig'] = signature.hexdigest()
     return prepared_request
 
-def make_request(method, url_path):
-    resp = sign_request(requests.Request(method, BASE_URL + url_path))
+def make_request(method, url_path, body=None):
+    req = requests.Request(method, BASE_URL + url_path)
+    if body:
+        req.json = body
+    resp = sign_request(req)
     s = requests.Session()
     response = s.send(resp, timeout=REQUEST_TIMEOUT)
     response.raise_for_status()
     return response.json()
 
 if __name__ == "__main__":
-    result = make_request("GET", "/resources/applicants?levelName=basic-kyc-level&limit=10&offset=0")
+    # search for applicants using POST
+    result = make_request("POST", "/resources/applicants/search", body={"limit": 10, "offset": 0})
     print(result)

@@ -1,5 +1,5 @@
-import hmac
 import hashlib
+import hmac
 import time
 import requests
 from dotenv import load_dotenv
@@ -7,31 +7,33 @@ import os
 
 load_dotenv()
 
-APP_TOKEN = os.getenv("SUMSUB_APP_TOKEN")
-SECRET_KEY = os.getenv("SUMSUB_SECRET_KEY")
+SUMSUB_APP_TOKEN = os.getenv("SUMSUB_APP_TOKEN")
+SUMSUB_SECRET_KEY = os.getenv("SUMSUB_SECRET_KEY")
 BASE_URL = os.getenv("SUMSUB_BASE_URL")
+REQUEST_TIMEOUT = 60
 
-def sign_request(secret_key, method, url_path, body=b""):
-    timestamp = str(int(time.time()))
-    message = timestamp.encode() + method.encode() + url_path.encode() + body
-    signature = hmac.new(secret_key.encode(), message, hashlib.sha256).hexdigest()
-    return timestamp, signature
+def sign_request(request):
+    prepared_request = request.prepare()
+    now = int(time.time())
+    method = request.method.upper()
+    path_url = prepared_request.path_url
+    body = b'' if prepared_request.body is None else prepared_request.body
+    if isinstance(body, str):
+        body = body.encode('utf-8')
+    data_to_sign = str(now).encode('utf-8') + method.encode('utf-8') + path_url.encode('utf-8') + body
+    signature = hmac.new(SUMSUB_SECRET_KEY.encode('utf-8'), data_to_sign, digestmod=hashlib.sha256)
+    prepared_request.headers['X-App-Token'] = SUMSUB_APP_TOKEN
+    prepared_request.headers['X-App-Access-Ts'] = str(now)
+    prepared_request.headers['X-App-Access-Sig'] = signature.hexdigest()
+    return prepared_request
 
-def make_request(method, url_path, body=b""):
-    timestamp, signature = sign_request(SECRET_KEY, method, url_path, body)
-    
-    headers = {
-        "X-App-Token": APP_TOKEN,
-        "X-App-Access-Ts": timestamp,
-        "X-App-Access-Sig": signature,
-        "Content-Type": "application/json"
-    }
-    
-    url = BASE_URL + url_path
-    response = requests.request(method, url, headers=headers, data=body)
+def make_request(method, url_path):
+    resp = sign_request(requests.Request(method, BASE_URL + url_path))
+    s = requests.Session()
+    response = s.send(resp, timeout=REQUEST_TIMEOUT)
     response.raise_for_status()
     return response.json()
 
 if __name__ == "__main__":
-    result = make_request("GET", "/resources/applicants?levelName=basic-kyc-level")
+    result = make_request("GET", "/resources/applicants/-;limit=10")
     print(result)

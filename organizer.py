@@ -59,7 +59,7 @@ def check_missing_docs(entity_name, provided_docs, nature_of_business):
     
     # check situational docs
     situational = detect_required_docs(nature_of_business)
-      for doc in provided_docs:
+      for doc in situational:
         if doc not in provided_docs:
             pending.append(f"{entity_name}: {doc} not found")
   

@@ -1,5 +1,6 @@
 import hashlib
 import hmac
+import json
 import time
 import requests
 from dotenv import load_dotenv
@@ -27,17 +28,14 @@ def sign_request(request):
     prepared_request.headers['X-App-Access-Sig'] = signature.hexdigest()
     return prepared_request
 
-def make_request(method, url_path, body=None):
-    req = requests.Request(method, BASE_URL + url_path)
-    if body:
-        req.json = body
-    resp = sign_request(req)
+def get_approved_applicants(level_name, limit=10, offset=0):
+    url = BASE_URL + f'/resources/applicants?levelName={level_name}&reviewStatus=completed&limit={limit}&offset={offset}'
+    resp = sign_request(requests.Request('GET', url))
     s = requests.Session()
     response = s.send(resp, timeout=REQUEST_TIMEOUT)
-    response.raise_for_status()
-    return response.json()
+    print("Status:", response.status_code)
+    print("Response:", response.text[:500])
+    return response
 
 if __name__ == "__main__":
-    # search for applicants using POST
-    result = make_request("POST", "/resources/applicants/search", body={"limit": 10, "offset": 0})
-    print(result)
+    get_approved_applicants("basic-kyc-level")

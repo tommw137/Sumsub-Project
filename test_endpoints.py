@@ -37,3 +37,8 @@ def test(method, path):
 test("GET", "/resources/applicants/-;limit=5")
 test("GET", "/resources/applicants?type=individual&reviewStatus=completed&limit=5")
 test("POST", "/resources/applicants/-/list")
+
+# test variations of the first endpoint
+test("GET", "/resources/applicants/-;limit=5;offset=0")
+test("GET", "/resources/applicants/-;reviewStatus=completed;limit=5")
+test("GET", "/resources/applicants/-;type=individual;limit=5")

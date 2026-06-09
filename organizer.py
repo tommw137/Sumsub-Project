@@ -40,18 +40,26 @@ def detect_required_docs(nature_of_business):
     return list(required)
 
 # missing documents checklist for pending items
-def check_missing_docs(entity_name, provided_docs, nature_of_business):
+def check_missing_docs(entity_name, provided_docs, nature_of_business, category):
     pending = []
-    
-    always_required = [
+  
+    if category == "KYB":
+      always_required = [
         "Articles of Association",
         "Shareholder Registry",
         "Proof of Address",
         "Source of Funds", # not required for payment processor onboards (Insert PSP entities here)
         "Sumsub Inspection Report",
         "Sumsub Watchlist Report"
-    ]
-    
+      ]
+    else: # KYC
+      always_required = [
+        "Government ID",
+        "Proof of Address",
+        "Sumsub Inspection Report",
+        "Sumsub Watchlist Report"
+      ]
+  
     # check always required docs
     for doc in always_required:
         if doc not in provided_docs:

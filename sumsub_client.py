@@ -31,3 +31,7 @@ def make_request(method, url_path, body=b""):
     response = requests.request(method, url, headers=headers, data=body)
     response.raise_for_status()
     return response.json()
+
+if __name__ == "__main__":
+    result = make_request("GET", "/resources/applicants?levelName=basic-kyc-level")
+    print(result)

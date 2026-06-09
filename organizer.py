@@ -104,7 +104,7 @@ if __name__ == "__main__":
     )
 
     provided = ["Articles of Association", "Proof of Address"]
-    pending =  check_missing_docs("Acme Corp", provided, "crypto exchange and trading")
+    pending =  check_missing_docs("Acme Corp", provided, "crypto exchange and trading", "KYB")
 
     if pending:
       print("\nPending Items:")
